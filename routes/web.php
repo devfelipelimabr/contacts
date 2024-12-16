@@ -4,19 +4,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 
+
+// Redirecionar a rota raiz para a home
+Route::redirect('/', 'home');
+
+// Página inicial (Home)
+Route::get('/home', [ContactController::class, 'list'])->name('home');
+
+
 // Rotas protegidas por autenticação
 Route::middleware('auth')->group(function () {
-    // Redirecionar a rota raiz para a home
-    Route::redirect('/', 'home');
-
-    // Página inicial (Home)
-    Route::view('/home', 'home')->name('home');
 
     // Rotas para o CRUD de contatos
     Route::resource('contacts', ContactController::class);
     Route::post('/contacts/store', [ContactController::class, 'store'])->name('contacts.store');
 
-    
+
     // Rotas administrativas
     Route::middleware('can:admin')->group(function () {
         Route::resource('users', UserController::class)

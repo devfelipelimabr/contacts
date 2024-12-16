@@ -13,18 +13,25 @@
     <!-- user -->
     <div class="d-flex align-items-center">
         <i class="fas fa-user-circle me-3"></i>
-        <a href="#" class="text-primary me-3">
-            {{ auth()->user()->name }}
-        </a>
+        @if (auth()->user())
+            <a href="#" class="text-primary me-3">
+                {{ auth()->user()->name }}
+            </a>
 
-        <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('logout') }}" method="POST">
 
-            @csrf
+                @csrf
 
-            <button type="submit" class="btn btn-sm btn-danger">
+                <button type="submit" class="btn btn-sm btn-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        @else
+            <a href="{{ route('login') }}" type="submit" class="btn btn-sm btn-success">
                 <i class="fas fa-sign-out-alt"></i>
-            </button>
-        </form>
+            </a>
+        @endif
+
     </div>
 
 </div>

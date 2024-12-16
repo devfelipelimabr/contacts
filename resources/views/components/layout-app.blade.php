@@ -22,8 +22,11 @@
     <x-user-bar />
 
     <div class="d-flex">
+        
+        @auth
 
-        <x-side-bar />
+            <x-side-bar />
+        @endauth
 
         <div class="m-3 p-3">
             <x-notifications />

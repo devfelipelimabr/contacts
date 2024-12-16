@@ -47,6 +47,25 @@ class ContactController extends Controller
         return view('contacts.index');
     }
 
+    public function list(Request $request)
+    {
+        if ($request->ajax()) {
+            $contacts = Contact::all();
+
+            return DataTables::of($contacts)
+                ->addColumn('actions', function ($row) {
+                    return '
+                        <a href="' . route('contacts.edit', $row->id) . '" class="btn btn-warning btn-sm edit-btn" data-id="' . $row->id . '">Editar</a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="' . $row->id . '">Delete</button>
+                    ';
+                })
+                ->rawColumns(['actions'])
+                ->make(true);
+        }
+
+        return view('home');
+    }
+
     public function show(Contact $contact)
     {
         if ($contact->user_id !== Auth::id()) {
